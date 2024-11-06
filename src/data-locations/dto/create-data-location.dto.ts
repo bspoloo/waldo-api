@@ -1,5 +1,5 @@
 export class CreateDataLocationDto {
-    id_Kid: number;
+    id_Kid: string;
     latitude: number;
     longitude: number;
     batteryLevel: number;

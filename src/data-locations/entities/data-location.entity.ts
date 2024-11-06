@@ -4,12 +4,12 @@ import { Kid } from 'src/kids/entities/kid.entity';
 
 @Entity()
 export class DataLocation {
-    
+
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
-    id_Kid: number;
+    @Column({ type: 'varchar', length: 50 })
+    id_Kid: string = "defaul kid";
 
     @Column()
     latitude: number;
@@ -20,9 +20,9 @@ export class DataLocation {
     @Column()
     batteryLevel: number;
 
-    @Column({nullable: false, default: () => 'CURRENT_TIMESTAMP',}) created_at: Date;
+    @Column({ nullable: false, default: () => 'CURRENT_TIMESTAMP', }) created_at: Date;
 
-    @Column({nullable: false, default: () => 'CURRENT_TIMESTAMP',}) updated_at: Date;
+    @Column({ nullable: false, default: () => 'CURRENT_TIMESTAMP', }) updated_at: Date;
 
     @ManyToMany(() => Kid, user => user.dataLocations, {
         onDelete: 'CASCADE',
