@@ -9,7 +9,7 @@ import { DataLocationsModule } from './data-locations/data-locations.module';
 
 const envModule = ConfigModule.forRoot({
   isGlobal: true,
-  envFilePath: '.env'
+  envFilePath: '../.env',
 });
 
 @Module({
