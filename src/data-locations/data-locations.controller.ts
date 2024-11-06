@@ -17,9 +17,10 @@ export class DataLocationsController {
     return this.dataLocationsService.getAll();
   }
 
-  @Get(':id')
-  findLastByKid(@Param('id') id: string) {
-    return this.dataLocationsService.getLastByIdKid(+id);
+  @Get(':id_Kid')
+  findLastByKid(@Param('id_Kid') id_Kid: string) {
+    console.log("the id kid is: "+id_Kid);
+    return this.dataLocationsService.getLastByIdKid(id_Kid);
   }
 
   @Delete(':id')
