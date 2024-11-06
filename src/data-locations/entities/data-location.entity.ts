@@ -11,11 +11,11 @@ export class DataLocation {
     @Column({ type: 'varchar', length: 50 })
     id_Kid: string = "defaul kid";
 
-    @Column()
-    latitude: number;
+    @Column({type: 'varchar', length: 50 })
+    latitude: string;
 
-    @Column()
-    longitude: number;
+    @Column({type: 'varchar', length: 50 })
+    longitude: string;
 
     @Column()
     batteryLevel: number;
