@@ -20,6 +20,9 @@ export class Kid {
     @Column()
     code: string;
 
+    @Column()
+    role: string;
+
     @Column({nullable: false, default: () => 'CURRENT_TIMESTAMP',}) created_at: Date;
 
     @Column({nullable: false, default: () => 'CURRENT_TIMESTAMP',}) updated_at: Date;

@@ -1,11 +1,13 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { KidsModule } from './kids/kids.module';
 import { ConfigModule } from '@nestjs/config'
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeormConnectionConfig } from './config/typeorm.config';
 import { DataLocationsModule } from './data-locations/data-locations.module';
+
+import { AuthModule } from './auth/auth.module';
+import { KidsModule } from './kids/kids.module';
 
 const envModule = ConfigModule.forRoot({
   isGlobal: true,
@@ -18,6 +20,7 @@ const envModule = ConfigModule.forRoot({
     TypeOrmModule.forRoot(typeormConnectionConfig),
     KidsModule,
     DataLocationsModule,
-  ]
+    AuthModule
+  ], 
 })
 export class AppModule {}

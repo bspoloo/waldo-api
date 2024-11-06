@@ -4,4 +4,5 @@ export class CreateKidDto {
     givenName: string;
     email: string;
     code:string;
+    role: string;
 }
