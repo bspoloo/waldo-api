@@ -35,12 +35,10 @@ export class DataLocationsService {
   }
   
   async create(dataLocationDto: CreateDataLocationDto): Promise<DataLocation> {
-    console.log('Data received in DTO:', dataLocationDto); // Verifica los valores recibidos
+    console.log('Data received in DTO:', dataLocationDto);
     const dataLocationEntity = this.locationDataRepository.create(dataLocationDto);
     return await this.locationDataRepository.save(dataLocationEntity);
 }
-
-
   async delete(id: number): Promise<number> {
     const foundDataLocation = await this.locationDataRepository.findOneBy({
       id: id,

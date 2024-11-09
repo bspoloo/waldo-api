@@ -5,7 +5,7 @@ import { typeormConnectionConfig } from './config/typeorm.config';
 import { DataLocationsModule } from './data-locations/data-locations.module';
 
 import { AuthModule } from './auth/auth.module';
-import { KidsModule } from './kids/kids.module';
+import { UsersModule } from './users/users.module';
 
 const envModule = ConfigModule.forRoot({
   isGlobal: true,
@@ -16,7 +16,7 @@ const envModule = ConfigModule.forRoot({
   imports: [
     envModule,
     TypeOrmModule.forRoot(typeormConnectionConfig),
-    KidsModule,
+    UsersModule,
     DataLocationsModule,
     AuthModule
   ], 

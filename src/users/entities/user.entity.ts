@@ -1,9 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, Column, PrimaryColumn, OneToMany } from 'typeorm';
-import { IsString, IsNotEmpty, IsNumber } from 'class-validator';
+import { Entity, Column, PrimaryColumn, OneToMany } from 'typeorm';
 import { DataLocation } from 'src/data-locations/entities/data-location.entity';
 
 @Entity()
-export class Kid {
+export class User {
 
     @PrimaryColumn({type: 'varchar', length: 50})
     id: string;
@@ -27,6 +26,6 @@ export class Kid {
 
     @Column({nullable: false, default: () => 'CURRENT_TIMESTAMP',}) updated_at: Date;
 
-    @OneToMany(() => DataLocation, dataLocation => dataLocation.kid)
+    @OneToMany(() => DataLocation, dataLocation => dataLocation.user)
     dataLocations: DataLocation[];
 }

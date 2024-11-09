@@ -1,8 +1,9 @@
-import { IsString, IsNumber } from 'class-validator';
+import { IsString, IsNumber, IsNotEmpty } from 'class-validator';
 
 export class CreateDataLocationDto {
     @IsString()
-    id_Kid: string;
+    @IsNotEmpty({ message: "User ID is required" })
+    id_User: string;
 
     @IsNumber()
     latitude: number;
