@@ -46,25 +46,24 @@ export class KidsService {
     }
   }
 
-  async create(Kid: CreateKidDto): Promise<Kid> {
+  async create(Kid: CreateKidDto): Promise<Kid | null> {
     try {
       console.log('Trying to create Kid with ID:', Kid.id);
       Kid.code = this.coder.generateCode(6);
-
+  
       const existingKid = await this.kidRepository.findOne({
         where: { id: Kid.id },
       });
+  
       if (existingKid) {
-        throw new HttpException(
-          `Kid with id ${Kid.id} already exists.`,
-          HttpStatus.CONFLICT
-        );
+        console.log(`Kid with id ${Kid.id} already exists.`);
+        return null; // Usuario ya existe, devolvemos null
       }
+  
       const createdKid = this.kidRepository.create(Kid);
       return await this.kidRepository.save(createdKid);
-    }
-    catch (err) {
-      console.log('The kid already exist in database: ', err.message ?? err);
+    } catch (err) {
+      console.log('Failed to create Kid: ', err.message ?? err);
       throw new HttpException(
         `Failed to create Kid: ${err.message}`,
         HttpStatus.INTERNAL_SERVER_ERROR

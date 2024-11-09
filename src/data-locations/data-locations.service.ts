@@ -7,9 +7,8 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class DataLocationsService {
-  constructor(@InjectRepository(DataLocation) private locationDataRepository: Repository<DataLocation>) {
+  constructor(@InjectRepository(DataLocation) private locationDataRepository: Repository<DataLocation>) {}
 
-  }
   async getAll(): Promise<DataLocation[]> {
     return await this.locationDataRepository.find();
   }
@@ -34,14 +33,16 @@ export class DataLocationsService {
       );
     }
   }
+  
+  async create(dataLocationDto: CreateDataLocationDto): Promise<DataLocation> {
+    console.log('Data received in DTO:', dataLocationDto); // Verifica los valores recibidos
+    const dataLocationEntity = this.locationDataRepository.create(dataLocationDto);
+    return await this.locationDataRepository.save(dataLocationEntity);
+}
 
-  async create(DataLocation: CreateDataLocationDto): Promise<DataLocation> {
-    const createdDataLocation = this.locationDataRepository.create(DataLocation);
-    return await this.locationDataRepository.save(createdDataLocation);
-  }
 
   async delete(id: number): Promise<number> {
-    let foundDataLocation = await this.locationDataRepository.findOneBy({
+    const foundDataLocation = await this.locationDataRepository.findOneBy({
       id: id,
     });
 

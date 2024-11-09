@@ -1,5 +1,4 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinColumn } from 'typeorm';
-import { IsString, IsNotEmpty, IsNumber } from 'class-validator';
 import { Kid } from 'src/kids/entities/kid.entity';
 
 @Entity()
@@ -9,12 +8,12 @@ export class DataLocation {
     id: number;
 
     @Column({ type: 'varchar', length: 50 })
-    id_Kid: string = "defaul kid";
+    id_Kid: string = "default kid";
 
-    @Column()
+    @Column({ type: 'decimal', precision: 10, scale: 8 }) // Ajuste para mayor precisión
     latitude: number;
 
-    @Column()
+    @Column({ type: 'decimal', precision: 11, scale: 8 }) // Ajuste para mayor precisión
     longitude: number;
 
     @Column()
@@ -30,4 +29,3 @@ export class DataLocation {
     @JoinColumn({ name: 'id_Kid' })
     kid: Kid;
 }
-
