@@ -9,7 +9,7 @@ export class DataLocation {
 
     @Column({ type: 'varchar', length: 50 })
     id_User: string = "default user";  
-
+  
     @Column({ type: 'decimal', precision: 10, scale: 8 }) 
     latitude: number;
 

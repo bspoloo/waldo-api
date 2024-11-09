@@ -13,9 +13,12 @@ export class DataLocationsService {
     return await this.locationDataRepository.find();
   }
 
-  async getLastByIdKid(id: number): Promise<DataLocation> {
+  async getLastByIdKid(id_Kid: string): Promise<DataLocation> {
     try {
+      console.log("the id kid is: "+id_Kid);
+      
       const dataLocation = await this.locationDataRepository.find({
+        where: {id_Kid :id_Kid},
         order: { created_at: 'DESC' },
         take: 1
       });
@@ -28,7 +31,7 @@ export class DataLocationsService {
     } catch (err) {
       console.log('Get last DataLocation by id error: ', err.message ?? err);
       throw new HttpException(
-        `DataLocation with id ${id} not found.`,
+        `DataLocation with id ${id_Kid} not found.`,
         HttpStatus.NOT_FOUND,
       );
     }

@@ -9,7 +9,7 @@ import { UsersModule } from './users/users.module';
 
 const envModule = ConfigModule.forRoot({
   isGlobal: true,
-  envFilePath: '.env'
+  envFilePath: '../.env'
 });
 
 @Module({
