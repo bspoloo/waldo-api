@@ -1,5 +1,7 @@
 import { Entity, Column, PrimaryColumn, OneToMany } from 'typeorm';
 import { DataLocation } from 'src/data-locations/entities/data-location.entity';
+import { Code } from 'src/codes/entities/code.entity';
+import { Enrollment } from 'src/enrollments/entities/enrollment.entity';
 
 @Entity()
 export class User {
@@ -17,9 +19,6 @@ export class User {
     email: string;
 
     @Column()
-    code: string;
-
-    @Column()
     role: string;
 
     @Column({nullable: false, default: () => 'CURRENT_TIMESTAMP',}) created_at: Date;
@@ -28,4 +27,12 @@ export class User {
 
     @OneToMany(() => DataLocation, dataLocation => dataLocation.user)
     dataLocations: DataLocation[];
+
+    @OneToMany(() => Code, code => code.user)
+    codes: Code[];
+
+    @OneToMany(() => Enrollment, enrollment => enrollment.user)
+    enrollments_kid: Enrollment[];
+    @OneToMany(() => Enrollment, enrollment => enrollment.user_parent)
+    enrollments__parent: Enrollment[];
 }

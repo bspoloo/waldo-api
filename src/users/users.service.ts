@@ -32,21 +32,6 @@ export class UsersService {
     }
   }
 
-  async getCodeById(id: string): Promise<CodeResponse> {
-    try {
-      const user = await this.userRepository.findOneOrFail({
-        where: { id: id },
-      });
-      return { code: user.code };
-    } catch (err) {
-      console.log('Get the Code User by id error: ', err.message ?? err);
-      throw new HttpException(
-        `User with id ${id} not found.`,
-        HttpStatus.NOT_FOUND,
-      );
-    }
-  }
-
   async create(user: CreateUserDto): Promise<User | null> {
     try {
       console.log('Trying to create User with ID:', user.id);

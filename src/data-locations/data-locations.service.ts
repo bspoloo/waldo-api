@@ -18,7 +18,7 @@ export class DataLocationsService {
       console.log("the id kid is: "+id_Kid);
       
       const dataLocation = await this.locationDataRepository.find({
-        where: {id_Kid :id_Kid},
+        where: {id_User :id_Kid},
         order: { created_at: 'DESC' },
         take: 1
       });
