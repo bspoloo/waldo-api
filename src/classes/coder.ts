@@ -19,6 +19,6 @@ export class Coder {
             }
         } while (this.codeGenerated.has(code));
         this.codeGenerated.add(code)
-        return code;
+        return code.toUpperCase();
     }
 }

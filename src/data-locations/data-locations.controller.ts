@@ -26,7 +26,8 @@ export class DataLocationsController {
   @SetMetadata('roles', ['parent'])
   @Get(':id')
   findLastByKid(@Param('id') id: string) {
-    return this.dataLocationsService.getLastByIdKid(+id);
+    return this.dataLocationsService.getLastByIdKid(id);
+  }
 
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @SetMetadata('roles', ['parent'])

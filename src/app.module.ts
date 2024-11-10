@@ -6,6 +6,9 @@ import { DataLocationsModule } from './data-locations/data-locations.module';
 
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
+import { CodesModule } from './codes/codes.module';
+import { EnrollmentsModule } from './enrollments/enrollments.module';
+import { EnrollmentsFathersModule } from './enrollments_fathers/enrollments_fathers.module';
 
 const envModule = ConfigModule.forRoot({
   isGlobal: true,
@@ -18,7 +21,10 @@ const envModule = ConfigModule.forRoot({
     TypeOrmModule.forRoot(typeormConnectionConfig),
     UsersModule,
     DataLocationsModule,
-    AuthModule
+    AuthModule,
+    CodesModule,
+    EnrollmentsModule,
+    EnrollmentsFathersModule
   ], 
 })
 export class AppModule {}

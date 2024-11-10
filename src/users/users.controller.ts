@@ -42,14 +42,7 @@ export class UsersController {
   findOne(@Param('id') id: string) {
     return this.usersService.getOneById(id);
   }
-
-  @UseGuards(AuthGuard('jwt'), RolesGuard)
-  @SetMetadata('roles', ['kid'])
-  @Get('code/:id')
-  findOneCode(@Param('id') id: string) {
-    return this.usersService.getCodeById(id);
-  }
-
+  
   @UseGuards(AuthGuard('jwt'))
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateKidDto: UpdateUserDto) {
