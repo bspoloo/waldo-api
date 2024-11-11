@@ -17,7 +17,7 @@ export class CodesService {
     return await this.codeRepository.find();
   }
 
-  async getLastCode(id_Kid: string): Promise<Code> {
+  async getLastCodeByIdKid(id_Kid: string): Promise<Code> {
     try {
       console.log("the id kid is: " + id_Kid);
       const code = await this.codeRepository.find({
@@ -34,6 +34,27 @@ export class CodesService {
       console.log('Get last code by id error: ', err.message ?? err);
       throw new HttpException(
         `code with id ${id_Kid} not found for the las code.`,
+        HttpStatus.NOT_FOUND,
+      );
+    }
+  }
+
+  async getLastCodeByCoder(codeString: string): Promise<Code> {
+    try {
+      const code = await this.codeRepository.find({
+        where: { code: codeString , isAvaible : true},
+        order: { created_at: 'DESC' },
+        take: 1
+      });
+
+      if (code.length === 0) {
+        throw new Error('Codigo no encontrado o no disponible');
+      }
+      return code[0];
+    } catch (err) {
+      console.log('Get last code by coder: ', err.message ?? err);
+      throw new HttpException(
+        `code ${codeString} not found or expired`,
         HttpStatus.NOT_FOUND,
       );
     }
