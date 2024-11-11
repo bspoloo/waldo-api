@@ -24,9 +24,15 @@ export class CodesController {
   }
 
   @UseGuards(AuthGuard('jwt'), RolesGuard)
-  @SetMetadata('roles', ['kid'])
+  @SetMetadata('roles', ['kid', 'parent'])
   @Get(':id')
   findCodeById(@Param('id') id: string) {
-    return this.codesService.getLastCode(id);
+    return this.codesService.getLastCodeByIdKid(id);
+  }
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @SetMetadata('roles', ['parent'])
+  @Get('code/:code')
+  findCodeByCoder(@Param('code') code: string) {
+    return this.codesService.getLastCodeByCoder(code);
   }
 }

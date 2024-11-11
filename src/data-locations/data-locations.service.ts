@@ -33,9 +33,10 @@ export class DataLocationsService {
       throw new HttpException(
         `DataLocation with id ${id_Kid} not found.`,
         HttpStatus.NOT_FOUND,
-      );
-    }
+    );
+    }
   }
+
   
   async create(dataLocationDto: CreateDataLocationDto): Promise<DataLocation> {
     console.log('Data received in DTO:', dataLocationDto);
