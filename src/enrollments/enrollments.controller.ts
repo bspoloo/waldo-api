@@ -11,28 +11,28 @@ export class EnrollmentsController {
   constructor(private readonly enrollmentsService: EnrollmentsService) {}
 
   @UseGuards(AuthGuard('jwt'), RolesGuard)
-  @SetMetadata('roles', ['kid'])  
+  @SetMetadata('roles', ['parent'])  
   @Post()
   create(@Body() createEnrollments: CreateEnrollmentDto) {
     return this.enrollmentsService.create(createEnrollments);
   }
 
   @UseGuards(AuthGuard('jwt'), RolesGuard)
-  @SetMetadata('roles', ['kid']) 
+  @SetMetadata('roles', ['kid','parent']) 
   @Get()
   findAll() {
     return this.enrollmentsService.getAll();
   }
   
   @UseGuards(AuthGuard('jwt'), RolesGuard)
-  @SetMetadata('roles', ['kid'])
+  @SetMetadata('roles', ['kid','parent'])
   @Get(':id')
   findOneById(@Param('id') id: number) {
     return this.enrollmentsService.getOneById(id);
   }
 
   @UseGuards(AuthGuard('jwt'), RolesGuard)
-  @SetMetadata('roles', ['kid'])
+  @SetMetadata('roles', ['kid','parent'])
   @UsePipes(ValidationPipe)
   @Patch(':id')
   update(@Param('id', ParseIntPipe) id: number, @Body() updateEnrollmentDto: UpdateEnrollmentDto) : Promise<Enrollment> {
@@ -41,7 +41,7 @@ export class EnrollmentsController {
 
 
   @UseGuards(AuthGuard('jwt'), RolesGuard)
-  @SetMetadata('roles', ['kid'])
+  @SetMetadata('roles', ['parent'])
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.enrollmentsService.delete(+id);
