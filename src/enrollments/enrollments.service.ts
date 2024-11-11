@@ -29,6 +29,16 @@ export class EnrollmentsService {
   }
   async create(enrollmentDto: CreateEnrollmentDto): Promise<Enrollment | null> {
     console.log('Data received in DTO:', enrollmentDto);
+
+    const existingEnrollment = await this.enrollmentRepository.find({
+      where: {id_User :enrollmentDto.id_User, id_Kid : enrollmentDto.id_Kid, isActive: true},
+      order: { created_at: 'DESC' },
+      take: 1
+    });
+    if(existingEnrollment.length > 0){
+      existingEnrollment[0].isActive = false
+      this.enrollmentRepository.save(existingEnrollment);
+    }
     const enrollmentEntity = this.enrollmentRepository.create(enrollmentDto);
     return await this.enrollmentRepository.save(enrollmentEntity);
   }

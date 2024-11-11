@@ -15,6 +15,12 @@ export class User {
     @Column()
     givenName: string;
 
+    @PrimaryColumn({type: 'varchar', length: 200})
+    photo: string = "https://cdn.pixabay.com/photo/2021/07/02/04/48/user-6380868_1280.png";
+
+    @PrimaryColumn({type: 'varchar', length: 20})
+    phone: string = "123456789"
+
     @Column()
     email: string;
 
