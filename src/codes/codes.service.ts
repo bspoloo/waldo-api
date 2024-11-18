@@ -3,12 +3,14 @@ import { CreateCodeDto } from './dto/create-code.dto';
 import { UpdateCodeDto } from './dto/update-code.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Code } from './entities/code.entity';
-import { Repository } from 'typeorm';
+import { Repository, UpdateResult } from 'typeorm';
 import { Coder } from 'src/classes/coder';
+import { Cron, CronExpression } from '@nestjs/schedule';
+import { getTimeExpired } from './functions/TimeExpired';
 
 @Injectable()
 export class CodesService {
-  private coder : Coder
+  private coder: Coder
   constructor(@InjectRepository(Code) private codeRepository: Repository<Code>) {
     this.coder = new Coder();
   }
@@ -41,16 +43,17 @@ export class CodesService {
 
   async getLastCodeByCoder(codeString: string): Promise<Code> {
     try {
-      const code = await this.codeRepository.find({
-        where: { code: codeString , isAvaible : true},
+      const code = await this.codeRepository.findOne({
+        where: { code: codeString, isAvaible: true },
         order: { created_at: 'DESC' },
-        take: 1
       });
 
-      if (code.length === 0) {
+      if (!code) {
         throw new Error('Codigo no encontrado o no disponible');
       }
-      return code[0];
+      code.isAvaible = false;
+      await this.codeRepository.save(code);
+      return code;
     } catch (err) {
       console.log('Get last code by coder: ', err.message ?? err);
       throw new HttpException(
@@ -74,6 +77,7 @@ export class CodesService {
       }
 
       codeDto.code = this.coder.generateCode(6)
+      codeDto.expiresAt = getTimeExpired(10, 'minuts')
       console.log('Create new code for the user:', codeDto);
       const codeEntity = this.codeRepository.create(codeDto);
       return await this.codeRepository.save(codeEntity);
@@ -84,5 +88,36 @@ export class CodesService {
         HttpStatus.BAD_REQUEST,
       );
     }
+  }
+  async update(id: number, codeDto: UpdateCodeDto): Promise<Code> {
+    let foundCode = await this.codeRepository.findOne({
+      where: { id: id },
+    });
+    if (!foundCode) {
+      throw new HttpException(
+        `User with id ${id} not found.`,
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    Object.assign(foundCode, codeDto, { updated_at: new Date() });
+
+    return await this.codeRepository.save(foundCode);
+  }
+
+  @Cron(CronExpression.EVERY_10_SECONDS)
+  async checkAndUpdateExpiration(): Promise<UpdateResult> {
+    console.log("verificando code expiration");
+
+    const currentDate = new Date()
+    const result = await this.codeRepository
+      .createQueryBuilder()
+      .update(Code)
+      .set({ isAvaible: false })
+      .where('expiresAt < :currentDate AND isAvaible = true', { currentDate })
+      .execute()
+
+    console.log('Códigos expirados actualizados:', result);
+    return result
   }
 }
