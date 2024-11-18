@@ -20,6 +20,9 @@ export class Code {
 
     @Column({nullable: false, default: () => 'CURRENT_TIMESTAMP',}) updated_at: Date;
 
+    @Column({ type: 'timestamp', nullable: true })
+    expiresAt: Date;
+
     @ManyToMany(() => User, user => user.codes, {
         onDelete: 'CASCADE',
     })

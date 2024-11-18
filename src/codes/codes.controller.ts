@@ -4,6 +4,7 @@ import { CreateCodeDto } from './dto/create-code.dto';
 import { UpdateCodeDto } from './dto/update-code.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from 'src/auth/RolesGuard';
+import { Cron } from '@nestjs/schedule';
 
 @Controller('codes')
 export class CodesController {
