@@ -9,6 +9,7 @@ import { UsersModule } from './users/users.module';
 import { CodesModule } from './codes/codes.module';
 import { EnrollmentsModule } from './enrollments/enrollments.module';
 import { EnrollmentsFathersModule } from './enrollments_fathers/enrollments_fathers.module';
+import { ConnectionStatusModule } from './connection-status/connection-status.module';
 
 const envModule = ConfigModule.forRoot({
   isGlobal: true,
@@ -24,7 +25,8 @@ const envModule = ConfigModule.forRoot({
     AuthModule,
     CodesModule,
     EnrollmentsModule,
-    EnrollmentsFathersModule
+    EnrollmentsFathersModule,
+    ConnectionStatusModule
   ], 
 })
 export class AppModule {}
