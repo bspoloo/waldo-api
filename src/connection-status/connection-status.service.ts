@@ -12,6 +12,18 @@ export class ConnectionStatusService {
   ) {}
 
   async updateConnectionStatus(dto: ConnectionStatusDto): Promise<void> {
+
+    const existingStatus = await this.connectionStatusRepository.find({
+      where: { userId: dto.userId },
+      order: { lastChecked: 'DESC' },
+      take: 1,
+    });
+
+    if (existingStatus.length > 0) {
+      existingStatus[0].isActiveStatus = false;
+      await this.connectionStatusRepository.save(existingStatus[0]);
+    }
+    
     const newStatus = this.connectionStatusRepository.create(dto);
     await this.connectionStatusRepository.save(newStatus);
   }

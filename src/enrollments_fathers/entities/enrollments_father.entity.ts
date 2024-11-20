@@ -14,7 +14,7 @@ import { Column, Entity, PrimaryColumn, ViewColumn, ViewEntity } from "typeorm";
                 u.email, 
         e.isActive
         FROM user u
-        INNER JOIN enrollment e ON e.id_User = u.id
+        INNER JOIN enrollment e ON e.id_User = u.id where u.role = "parent"
     `
 })
 
