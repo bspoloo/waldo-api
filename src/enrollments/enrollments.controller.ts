@@ -1,10 +1,12 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, SetMetadata, UsePipes, ValidationPipe, ParseIntPipe } from '@nestjs/common';
+import { CreateUserDto } from '../users/dto/create-user.dto';
 import { EnrollmentsService } from './enrollments.service';
 import { CreateEnrollmentDto } from './dto/create-enrollment.dto';
 import { UpdateEnrollmentDto } from './dto/update-enrollment.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from 'src/auth/RolesGuard';
 import { Enrollment } from './entities/enrollment.entity';
+import { User } from 'src/auth/decorators/user.decorator';
 
 @Controller('enrollments')
 export class EnrollmentsController {
@@ -18,6 +20,14 @@ export class EnrollmentsController {
   }
 
   @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @SetMetadata('roles', ['parent'])
+  @Get('linked/kids') // Prefijo estático
+  async getLinkedKids(@User() user: CreateUserDto) {
+    console.log('Parent ID:', user.id); // Depuración
+    return this.enrollmentsService.getLinkedKids(user.id);
+  }
+
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   @SetMetadata('roles', ['kid','parent']) 
   @Get()
   findAll() {
@@ -25,8 +35,8 @@ export class EnrollmentsController {
   }
   
   @UseGuards(AuthGuard('jwt'), RolesGuard)
-  @SetMetadata('roles', ['kid','parent'])
-  @Get(':id')
+  @SetMetadata('roles', ['kid', 'parent'])
+  @Get(':id') 
   findOneById(@Param('id') id: number) {
     return this.enrollmentsService.getOneById(id);
   }
@@ -46,4 +56,5 @@ export class EnrollmentsController {
   remove(@Param('id') id: string) {
     return this.enrollmentsService.delete(+id);
   }
+
 }
