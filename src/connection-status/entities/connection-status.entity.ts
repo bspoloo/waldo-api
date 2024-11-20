@@ -8,8 +8,8 @@ export class ConnectionStatus {
   @Column()
   userId: string;
 
-  @Column({ default: false })
-  isConnected: boolean;
+  @Column({ type: 'varchar', default: 'No network available' }) 
+  connectionStatus: string; 
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   lastChecked: Date;

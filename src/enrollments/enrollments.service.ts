@@ -4,6 +4,7 @@ import { UpdateEnrollmentDto } from './dto/update-enrollment.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Enrollment } from './entities/enrollment.entity';
 import { Repository } from 'typeorm';
+import { User } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class EnrollmentsService {
@@ -72,4 +73,15 @@ export class EnrollmentsService {
     await this.enrollmentRepository.delete(id);
     return foundEnrollment.id;
   }
+
+  //
+  async getLinkedKids(parentId: string): Promise<User[]> {
+    console.log('Parent ID:', parentId); // Agrega este log
+    const enrollments = await this.enrollmentRepository.find({
+        where: { id_User: parentId, isActive: true },
+        relations: ['kid'], // Carga la relación kid desde la base de datos
+    });
+
+    return enrollments.map((enrollment) => enrollment.kid);
+}
 }
