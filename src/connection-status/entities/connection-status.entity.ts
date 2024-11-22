@@ -11,6 +11,9 @@ export class ConnectionStatus {
   @Column({ type: 'varchar', default: 'No network available' }) 
   connectionStatus: string; 
 
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({type: 'timestamp', nullable: false, default: () => 'CURRENT_TIMESTAMP', })
   lastChecked: Date;
+
+  @Column({ type: 'boolean', default: true })
+  isActiveStatus: boolean;
 }
