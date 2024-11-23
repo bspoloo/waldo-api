@@ -20,7 +20,7 @@ export class EnrollmentsKidsController {
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @SetMetadata('roles', ['kid', 'parent'])
   @Get(':id_Parent')
-  findAllForOne(@User() user: CreateUserDto) {
-    return this.enrollmentsKidsService.getAllforOneById(user.id);
+  findAllForOne(id_Parent: string) {
+    return this.enrollmentsKidsService.getAllforOneById(id_Parent);
   }
 }
