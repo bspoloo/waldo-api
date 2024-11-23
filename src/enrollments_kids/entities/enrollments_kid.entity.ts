@@ -30,7 +30,7 @@ export class EnrollmentsKid {
     id: number;
 
     @ViewColumn()
-    id_kid: string;
+    id_Kid: string;
 
     @ViewColumn()
     id_Parent: string;
