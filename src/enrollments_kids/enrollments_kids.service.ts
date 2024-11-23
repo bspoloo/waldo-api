@@ -16,6 +16,8 @@ export class EnrollmentsKidsService {
 
   async getAllforOneById(id_Parent: string): Promise<EnrollmentsKid[]> {
     try {
+      console.log("Parent id es: "+id_Parent);
+      
       return await this.enrollmentKidsRepository.find({
         where: { id_Parent: id_Parent }
       });

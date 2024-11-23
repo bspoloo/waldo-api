@@ -20,7 +20,7 @@ export class EnrollmentsKidsController {
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @SetMetadata('roles', ['kid', 'parent'])
   @Get(':id_Parent')
-  findAllForOne(id_Parent: string) {
+  findAllForOne(@Param('id_Parent') id_Parent: string) {
     return this.enrollmentsKidsService.getAllforOneById(id_Parent);
   }
 }
