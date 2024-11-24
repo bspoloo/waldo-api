@@ -21,8 +21,6 @@ import { Column, Entity, PrimaryColumn, ViewColumn, ViewEntity } from "typeorm";
         .from('user', 'u')
         .innerJoin('enrollment', 'e', 'e.id_Kid = u.id')
         .innerJoin('connection_status', 'cs', 'u.id = cs.userId')
-        // Sin parámetros dinámicos
-        .where('u.role = "kid"') // Valor estático
 })
 
 export class EnrollmentsKid {
