@@ -9,7 +9,7 @@ import { User } from 'src/users/entities/user.entity';
 @Injectable()
 export class EnrollmentsService {
 
-  constructor(@InjectRepository(Enrollment) private enrollmentRepository: Repository<Enrollment>) {}
+  constructor(@InjectRepository(Enrollment) private enrollmentRepository: Repository<Enrollment>) { }
 
   async getAll(): Promise<Enrollment[]> {
     return await this.enrollmentRepository.find();
@@ -32,11 +32,11 @@ export class EnrollmentsService {
     console.log('Data received in DTO:', enrollmentDto);
 
     const existingEnrollment = await this.enrollmentRepository.find({
-      where: {id_User :enrollmentDto.id_User, id_Kid : enrollmentDto.id_Kid, isActive: true},
+      where: { id_User: enrollmentDto.id_User, id_Kid: enrollmentDto.id_Kid, isActive: true },
       order: { created_at: 'DESC' },
       take: 1
     });
-    if(existingEnrollment.length > 0){
+    if (existingEnrollment.length > 0) {
       existingEnrollment[0].isActive = false
       this.enrollmentRepository.save(existingEnrollment);
     }
@@ -76,12 +76,27 @@ export class EnrollmentsService {
 
   //
   async getLinkedKids(parentId: string): Promise<User[]> {
-    console.log('Parent ID:', parentId); // Agrega este log
     const enrollments = await this.enrollmentRepository.find({
-        where: { id_User: parentId, isActive: true },
-        relations: ['kid'], // Carga la relación kid desde la base de datos
+      where: { id_User: parentId, isActive: true },
+      relations: ['kid'], // Carga la relación kid desde la base de datos
     });
 
     return enrollments.map((enrollment) => enrollment.kid);
-}
+  }
+  async unLinkEnrollment(id_Enrollment: number) : Promise<Enrollment>{
+    try {
+      const existingEnrollment = await this.enrollmentRepository.findOneOrFail({
+        where: { id: id_Enrollment },
+      });
+      existingEnrollment.isActive = false
+      return this.enrollmentRepository.save(existingEnrollment)
+
+    } catch (err) {
+      console.log('Get one Enrollment by id error: ', err.message ?? err);
+      throw new HttpException(
+        `Enrollment with id ${id_Enrollment} not found.`,
+        HttpStatus.NOT_FOUND,
+      );
+    }
+  }
 }

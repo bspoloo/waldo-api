@@ -56,5 +56,11 @@ export class EnrollmentsController {
   remove(@Param('id') id: string) {
     return this.enrollmentsService.delete(+id);
   }
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @SetMetadata('roles', ['parent'])
+  @Delete('unlink/:id')
+  unlinkEnrollment(@Param('id') id: number) {
+    return this.enrollmentsService.unLinkEnrollment(+id);
+  }
 
 }
