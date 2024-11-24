@@ -23,8 +23,6 @@ import { Column, Entity, PrimaryColumn, ViewColumn, ViewEntity } from "typeorm";
         .innerJoin('connection_status', 'cs', 'u.id = cs.userId')
         // Sin parámetros dinámicos
         .where('u.role = "kid"') // Valor estático
-        .andWhere('e.isActive = true')
-        .andWhere('cs.isActiveStatus = true')
 })
 
 export class EnrollmentsKid {

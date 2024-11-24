@@ -11,6 +11,7 @@ import { EnrollmentsModule } from './enrollments/enrollments.module';
 import { EnrollmentsFathersModule } from './enrollments_fathers/enrollments_fathers.module';
 import { ConnectionStatusModule } from './connection-status/connection-status.module';
 import { EnrollmentsKidsModule } from './enrollments_kids/enrollments_kids.module';
+import { HistoryKidsModule } from './history_kids/history_kids.module';
 
 const envModule = ConfigModule.forRoot({
   isGlobal: true,
@@ -28,7 +29,8 @@ const envModule = ConfigModule.forRoot({
     EnrollmentsModule,
     EnrollmentsFathersModule,
     ConnectionStatusModule,
-    EnrollmentsKidsModule
+    EnrollmentsKidsModule,
+    HistoryKidsModule
   ], 
 })
 export class AppModule {}
