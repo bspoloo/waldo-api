@@ -36,7 +36,12 @@ export class DataLocationsService {
       );
     }
   }
-
+  async getAllByIdKid(id_Kid : string): Promise<DataLocation[]> {
+    return await this.locationDataRepository.find(
+      {where : {id_User : id_Kid},
+      order: { created_at: 'DESC' }}
+    );
+  }
 
   async create(dataLocationDto: CreateDataLocationDto): Promise<DataLocation> {
     console.log('Data received in DTO:', dataLocationDto);

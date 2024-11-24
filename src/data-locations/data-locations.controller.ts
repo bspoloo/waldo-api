@@ -21,6 +21,12 @@ export class DataLocationsController {
   findAll() {
     return this.dataLocationsService.getAll();
   }
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @SetMetadata('roles', ['parent']) 
+  @Get('history/:id_Kid')
+  findAllByIdKid(@Param('id_Kid') id_Kid: string) {
+    return this.dataLocationsService.getAllByIdKid(id_Kid);
+  }
   
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @SetMetadata('roles', ['parent'])

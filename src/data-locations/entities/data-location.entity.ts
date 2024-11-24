@@ -8,12 +8,12 @@ export class DataLocation {
     id: number;
 
     @Column({ type: 'varchar', length: 50 })
-    id_User: string = "default user";  
-  
-    @Column({ type: 'decimal', precision: 10, scale: 8 }) 
+    id_User: string = "default user";
+
+    @Column({ type: 'decimal', precision: 10, scale: 8 })
     latitude: number;
 
-    @Column({ type: 'decimal', precision: 11, scale: 8 }) 
+    @Column({ type: 'decimal', precision: 11, scale: 8 })
     longitude: number;
 
     @Column()
@@ -28,6 +28,6 @@ export class DataLocation {
     @ManyToMany(() => User, user => user.dataLocations, {
         onDelete: 'CASCADE',
     })
-    @JoinColumn({ name: 'id_User' })  
-    user: User; 
+    @JoinColumn({ name: 'id_User' })
+    user: User;
 }
