@@ -12,20 +12,28 @@ export class ConnectionStatusController {
   @SetMetadata('roles', ['kid']) // Solo los niños pueden actualizar el estado
   @Post('update')
   async updateConnectionStatus(@Body() dto: ConnectionStatusDto) {
+    console.log('Update connection status endpoint hit. DTO:', dto);
     await this.connectionStatusService.updateConnectionStatus(dto);
+    console.log('Connection status update processed successfully.');
   }
 
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @SetMetadata('roles', ['parent']) // Solo los padres pueden obtener el último estado
   @Get(':userId/latest')
   async getLatestConnectionStatus(@Param('userId') userId: string) {
-    return this.connectionStatusService.getLatestConnectionStatus(userId);
+    console.log('Get latest connection status endpoint hit. userId:', userId);
+    const result = await this.connectionStatusService.getLatestConnectionStatus(userId);
+    console.log('Fetched latest connection status:', result);
+    return result;
   }
 
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @SetMetadata('roles', ['parent']) // Solo los padres pueden obtener el historial completo
   @Get(':userId')
   async getConnectionStatus(@Param('userId') userId: string) {
-    return this.connectionStatusService.getConnectionStatus(userId);
+    console.log('Get connection status history endpoint hit. userId:', userId);
+    const result = await this.connectionStatusService.getConnectionStatus(userId);
+    console.log('Fetched connection status history:', result);
+    return result;
   }
 }
