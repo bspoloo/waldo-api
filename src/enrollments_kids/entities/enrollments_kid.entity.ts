@@ -2,27 +2,25 @@ import { Column, Entity, PrimaryColumn, ViewColumn, ViewEntity } from "typeorm";
 
 @ViewEntity({
     name: 'enrollments_kids',
-    expression: `
-        select 
-            e.id ,
-            u.id as id_Kid, 
-            e.id_User as id_Parent , 
-            u.familyName, 
-            u.givenName, 
-            u.photo , 
-            u.phone,
-            u.role, 
-            u.email, 
-            e.isActive, 
-            cs.connectionStatus, 
-            cs.lastChecked,
-            cs.isActiveStatus
-        from user u
-        inner join enrollment e 
-        on e.id_Kid = u.id
-        inner join connection_status cs 
-        on u.id = cs.userId where u.role = "kid" and e.isActive = true and cs.isActiveStatus = true
-    `
+    expression: (connection) => connection.createQueryBuilder()
+        .select([
+            'e.id as id',
+            'u.id as id_Kid',
+            'e.id_User as id_Parent',
+            'u.familyName as familyName',
+            'u.givenName as givenName',
+            'u.photo as photo',
+            'u.phone as phone',
+            'u.role as role',
+            'u.email as email',
+            'e.isActive as isActive',
+            'cs.connectionStatus as connectionStatus',
+            'cs.lastChecked as lastChecked',
+            'cs.isActiveStatus as isActiveStatus',
+        ])
+        .from('user', 'u')
+        .innerJoin('enrollment', 'e', 'e.id_Kid = u.id')
+        .innerJoin('connection_status', 'cs', 'u.id = cs.userId')
 })
 
 export class EnrollmentsKid {

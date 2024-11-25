@@ -7,7 +7,7 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class DataLocationsService {
-  constructor(@InjectRepository(DataLocation) private locationDataRepository: Repository<DataLocation>) {}
+  constructor(@InjectRepository(DataLocation) private locationDataRepository: Repository<DataLocation>) { }
 
   async getAll(): Promise<DataLocation[]> {
     return await this.locationDataRepository.find();
@@ -15,10 +15,10 @@ export class DataLocationsService {
 
   async getLastByIdKid(id_Kid: string): Promise<DataLocation> {
     try {
-      console.log("the id kid is: "+id_Kid);
-      
+      console.log("the id kid is: " + id_Kid);
+
       const dataLocation = await this.locationDataRepository.find({
-        where: {id_User :id_Kid},
+        where: { id_User: id_Kid },
         order: { created_at: 'DESC' },
         take: 1
       });
@@ -33,16 +33,21 @@ export class DataLocationsService {
       throw new HttpException(
         `DataLocation with id ${id_Kid} not found.`,
         HttpStatus.NOT_FOUND,
+      );
+    }
+  }
+  async getAllByIdKid(id_Kid : string): Promise<DataLocation[]> {
+    return await this.locationDataRepository.find(
+      {where : {id_User : id_Kid},
+      order: { created_at: 'DESC' }}
     );
-    }
   }
 
-  
   async create(dataLocationDto: CreateDataLocationDto): Promise<DataLocation> {
     console.log('Data received in DTO:', dataLocationDto);
     const dataLocationEntity = this.locationDataRepository.create(dataLocationDto);
     return await this.locationDataRepository.save(dataLocationEntity);
-}
+  }
   async delete(id: number): Promise<number> {
     const foundDataLocation = await this.locationDataRepository.findOneBy({
       id: id,
