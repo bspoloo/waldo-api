@@ -21,7 +21,7 @@ export class CodesService {
 
   async getLastCodeByIdKid(id_Kid: string): Promise<Code> {
     try {
-      console.log("the id kid is: " + id_Kid);
+      console.log("the id kid is GET LAST CODE: " + id_Kid);
       const code = await this.codeRepository.find({
         where: { id_User: id_Kid },
         order: { created_at: 'DESC' },
@@ -107,7 +107,7 @@ export class CodesService {
 
   @Cron(CronExpression.EVERY_10_SECONDS)
   async checkAndUpdateExpiration(): Promise<UpdateResult> {
-    console.log("verificando code expiration");
+    //console.log("verificando code expiration");
 
     const currentDate = new Date()
     const result = await this.codeRepository
@@ -117,7 +117,7 @@ export class CodesService {
       .where('expiresAt < :currentDate AND isAvaible = true', { currentDate })
       .execute()
 
-    console.log('Códigos expirados actualizados:', result);
+    //console.log('Códigos expirados actualizados:', result);
     return result
   }
 }
