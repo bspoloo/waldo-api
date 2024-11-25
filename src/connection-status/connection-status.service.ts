@@ -12,27 +12,27 @@ export class ConnectionStatusService {
   ) {}
 
   async updateConnectionStatus(dto: ConnectionStatusDto): Promise<void> {
-    const validStatuses = {
-        "Sin conexión": "Sin conexión",
-        "Sin acceso a internet": "Sin acceso a internet",
-        "Internet disponible": "Internet disponible",
-    };
-
-    const mappedStatus = validStatuses[dto.connectionStatus];
-    if (!mappedStatus) {
-        console.error(`Estado de conexión inválido: ${dto.connectionStatus}`);
+    const validStatuses = ['Red no disponible', 'Sin acceso a internet', 'Internet disponible'];
+    if (!validStatuses.includes(dto.connectionStatus)) {
         throw new HttpException(
             `Estado de conexión inválido: ${dto.connectionStatus}`,
             HttpStatus.BAD_REQUEST,
         );
     }
 
-    dto.connectionStatus = mappedStatus;
+    // Desactiva todos los registros previos del usuario
+    await this.connectionStatusRepository.update(
+        { userId: dto.userId },
+        { isActiveStatus: false }
+    );
 
-    const newStatus = this.connectionStatusRepository.create(dto);
-    console.log('Guardando nuevo estado de conexión:', newStatus);
+    // Inserta el nuevo registro con isActiveStatus = true
+    const newStatus = this.connectionStatusRepository.create({
+        ...dto,
+        isActiveStatus: true,
+    });
+
     await this.connectionStatusRepository.save(newStatus);
-    console.log('Nuevo estado de conexión guardado correctamente.');
 }
 
   async getLatestConnectionStatus(userId: string): Promise<ConnectionStatus> {

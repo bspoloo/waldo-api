@@ -21,7 +21,7 @@ export class CodesService {
 
   async getLastCodeByIdKid(id_Kid: string): Promise<Code> {
     try {
-      console.log("the id kid is: " + id_Kid);
+      console.log("the id kid is GET LAST CODE: " + id_Kid);
       const code = await this.codeRepository.find({
         where: { id_User: id_Kid },
         order: { created_at: 'DESC' },

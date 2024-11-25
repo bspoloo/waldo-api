@@ -15,7 +15,7 @@ export class DataLocationsService {
 
   async getLastByIdKid(id_Kid: string): Promise<DataLocation> {
     try {
-      console.log("the id kid is: " + id_Kid);
+      console.log("the id kid is GET LAST LOCATION: " + id_Kid);
 
       const dataLocation = await this.locationDataRepository.find({
         where: { id_User: id_Kid },
